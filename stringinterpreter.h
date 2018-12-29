@@ -11,6 +11,7 @@ class MainWindow;
 
 #include <QStack>
 #include <QSet>
+#include <QColor>
 
 class StringInterpreter
 {

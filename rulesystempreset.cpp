@@ -239,7 +239,48 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255))); // green
             rs.addColor(QColor::fromRgb(255, 211, 0, static_cast<int>(0.75*255))); // yellow
             rs.addColor(QColor::fromRgb(64, 64, 255, static_cast<int>(0.5*255)));  // blue
+        }
+        break;
 
+        case ABSTRACT_DANCE:
+        {
+            rs.setAxiom("X+Y-X");
+            rs.addRule(Rule("X", "X+C0X+[Y]-C1X", 1.0));
+            rs.addRule(Rule("Y", "Y-[Y]-C2Y+C3X", 1.0));
+            rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
+            rs.setAngleIncrementPerSecond(0.4);
+            QMap<QChar, double> ThicknessForSymbol;
+            ThicknessForSymbol['X'] = 6;
+            ThicknessForSymbol['Y'] = 0;
+            rs.setThicknessCalculator(std::unique_ptr<CharacterValueLookup>(new CharacterValueLookup(ThicknessForSymbol, 0)));
+            QMap<QChar, double> LengthForSymbol;
+            LengthForSymbol['X'] = 1;
+            LengthForSymbol['Y'] = -15;
+            rs.setSegmentLengthCalculator(std::unique_ptr<CharacterValueLookup>(new CharacterValueLookup(LengthForSymbol, 10)));
+            rs.addColor(QColor::fromRgb(140, 80, 60, static_cast<int>(0.5*255)));  // brown
+            rs.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255))); // green
+            rs.addColor(QColor::fromRgb(255, 211, 0, static_cast<int>(0.75*255))); // yellow
+            rs.addColor(QColor::fromRgb(64, 64, 255, static_cast<int>(0.5*255)));  // blue
+        }
+        break;
+
+        case KOLAM_PATTERN:
+        {
+            rs.setAxiom("AAAA");
+            rs.addRule(Rule("A","X+X+X+X+X+X+",1.0));
+            rs.addRule(Rule("X","[F+F+F+F[---X-Y]+++++F++++++++F-F-F-F]",1.0));
+            rs.addRule(Rule("Y","[F+F+F+F[---Y]+++++F++++++++F-F-F-F]",1.0));
+            rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
+        }
+        break;
+
+        case KOCH_ISLAND:
+        {
+            rs.setAxiom("F-F-F-F");
+            rs.addRule(Rule("F","F-f+FF-F-FF-Ff-FF+f-FF+F+FF+Ff+FFF",1.0));
+            rs.addRule(Rule("f", "ffffff", 1.0));
+            rs.setThicknessCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 10)));
+            rs.setNoOfIterations(NoOfIterations == -1 ? 2 : NoOfIterations);
         }
         break;
     }
@@ -288,6 +329,12 @@ double RuleSystemPreset::GetRecommendedAngle(RSP type) const
             return 35;
         case DANDELIONS:
             return 40;
+        case ABSTRACT_DANCE:
+            return 40;
+        case KOLAM_PATTERN:
+            return 15;
+        case KOCH_ISLAND:
+            return 90;
     }
 
     return 0.0;

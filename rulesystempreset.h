@@ -23,6 +23,9 @@ enum RSP {
     NECKLACE,
     TWO_EYES_OF_SAURON,
     DANDELIONS,
+    ABSTRACT_DANCE,
+    KOLAM_PATTERN,
+    KOCH_ISLAND,
 };
 
 class RuleSystemPreset

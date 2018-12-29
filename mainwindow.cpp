@@ -8,7 +8,7 @@
 #include <QTimer>
 #include "idoublefromdepthcalculator.h"
 
-#define TIMERDURATION 100
+#define TIMERDURATION (1000/25)
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(new QGraphicsScene());
 
     RuleSystemPreset Presets;
-    *m_RuleSystem = Presets.CreateRuleSystem(DANDELIONS);
+    *m_RuleSystem = Presets.CreateRuleSystem(KOCH_ISLAND);
 
     connect(m_Timer.get(), SIGNAL(timeout()), this, SLOT(animate()));
     m_Timer->start(TIMERDURATION);
