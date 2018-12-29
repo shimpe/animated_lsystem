@@ -32,8 +32,8 @@ SOURCES += \
     stringinterpreter.cpp \
     rulesystempreset.cpp \
     idoublefromdepthcalculator.cpp \
-    constantlinethickness.cpp \
-    lineardepthlinethickness.cpp
+    lineardepthlinethickness.cpp \
+    constantvalueprovider.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -42,8 +42,8 @@ HEADERS += \
     stringinterpreter.h \
     rulesystempreset.h \
     idoublefromdepthcalculator.h \
-    constantlinethickness.h \
-    lineardepthlinethickness.h
+    lineardepthlinethickness.h \
+    constantvalueprovider.h
 
 FORMS += \
         mainwindow.ui

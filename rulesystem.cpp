@@ -3,7 +3,7 @@
 #include <QColor>
 #include <QRandomGenerator>
 #include "idoublefromdepthcalculator.h"
-#include "constantlinethickness.h"
+#include "constantvalueprovider.h"
 
 RuleSystem::RuleSystem()
     : m_NoOfIterations(0)

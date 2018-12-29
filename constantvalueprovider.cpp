@@ -1,4 +1,4 @@
-#include "constantlinethickness.h"
+#include "constantvalueprovider.h"
 
 ConstantValueProvider::ConstantValueProvider(double thickness)
     : IDoubleFromDepthCalculator()
