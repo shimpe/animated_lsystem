@@ -8,7 +8,7 @@ class ConstantValueProvider : public IDoubleFromDepthCalculator
 public:
     ConstantValueProvider();
     ConstantValueProvider(bool ScaleWithZoom, double thickness);
-    double Calculate(int depth) override;
+    double Calculate(const QChar &c, int depth) override;
 
 private:
     double m_Thickness;

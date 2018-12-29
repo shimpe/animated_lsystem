@@ -22,6 +22,7 @@ enum RSP {
     FERN_CLAW,
     NECKLACE,
     TWO_EYES_OF_SAURON,
+    DANDELIONS,
 };
 
 class RuleSystemPreset

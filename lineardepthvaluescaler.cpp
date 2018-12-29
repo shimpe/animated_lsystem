@@ -18,7 +18,7 @@ LinearDepthValueScaler::LinearDepthValueScaler(bool ScaleWithZoom, LinearThickne
 {
 }
 
-double LinearDepthValueScaler::Calculate(int depth)
+double LinearDepthValueScaler::Calculate(const QChar &/*c*/, int depth)
 {
     double val = 0;
     if (m_Mode == DEEPER_IS_LESS) {

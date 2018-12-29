@@ -13,7 +13,7 @@ class LinearDepthValueScaler : public IDoubleFromDepthCalculator
 public:
     LinearDepthValueScaler();
     LinearDepthValueScaler(bool ScaleWithZoom, LinearThicknessMode mode, int maxdepth, double scale, double offset);
-    virtual double Calculate(int depth) override;
+    virtual double Calculate(const QChar &c, int depth) override;
 
 private:
     LinearThicknessMode m_Mode;

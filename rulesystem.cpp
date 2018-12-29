@@ -43,11 +43,11 @@ void RuleSystem::setThicknessCalculator(std::unique_ptr<IDoubleFromDepthCalculat
     m_LineThicknessCalculator = std::move(Calculator);
 }
 
-double RuleSystem::getLineThickness(int depth)
+double RuleSystem::getLineThickness(const QChar &c, int depth)
 {
     if (!m_LineThicknessCalculator)
         m_LineThicknessCalculator = std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 0));
-    return m_LineThicknessCalculator->Calculate(depth);
+    return m_LineThicknessCalculator->Calculate(c, depth);
 }
 
 void RuleSystem::setSegmentLengthCalculator(std::unique_ptr<IDoubleFromDepthCalculator> Calculator)
@@ -55,11 +55,11 @@ void RuleSystem::setSegmentLengthCalculator(std::unique_ptr<IDoubleFromDepthCalc
     m_SegmentLengthCalculator = std::move(Calculator);
 }
 
-double RuleSystem::getSegmentLength(int depth)
+double RuleSystem::getSegmentLength(const QChar& c, int depth)
 {
     if (!m_SegmentLengthCalculator)
         m_SegmentLengthCalculator = std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 10));
-    return m_SegmentLengthCalculator->Calculate(depth);
+    return m_SegmentLengthCalculator->Calculate(c, depth);
 }
 
 int RuleSystem::NoOfIterations() const
@@ -152,6 +152,16 @@ bool RuleSystem::getScaleWithZoom() const
         return m_LineThicknessCalculator->ScaleWithZoom();
     }
     return true;
+}
+
+bool RuleSystem::addLengthForChar(const QChar &c, double Length)
+{
+    m_LengthForChar[c] = Length;
+}
+
+const QMap<QChar, double> &RuleSystem::getLengths() const
+{
+    return m_LengthForChar;
 }
 
 const QString &RuleSystem::Axiom() const

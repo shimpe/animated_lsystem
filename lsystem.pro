@@ -33,7 +33,8 @@ SOURCES += \
     rulesystempreset.cpp \
     idoublefromdepthcalculator.cpp \
     constantvalueprovider.cpp \
-    lineardepthvaluescaler.cpp
+    lineardepthvaluescaler.cpp \
+    charactervaluelookup.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -43,7 +44,8 @@ HEADERS += \
     rulesystempreset.h \
     idoublefromdepthcalculator.h \
     constantvalueprovider.h \
-    lineardepthvaluescaler.h
+    lineardepthvaluescaler.h \
+    charactervaluelookup.h
 
 FORMS += \
         mainwindow.ui

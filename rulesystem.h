@@ -5,6 +5,7 @@
 #include <QString>
 #include <QSet>
 #include <memory>
+#include <QMap>
 
 class Rule;
 class QChar;
@@ -37,15 +38,18 @@ public:
     const QVector<QColor> &getColors() const;
 
     void setThicknessCalculator(std::unique_ptr<IDoubleFromDepthCalculator> Calculator);
-    double getLineThickness(int depth);
+    double getLineThickness(const QChar &c, int depth);
 
     void setSegmentLengthCalculator(std::unique_ptr<IDoubleFromDepthCalculator> Calculator);
-    double getSegmentLength(int depth);
+    double getSegmentLength(const QChar &c, int depth);
 
     double getAngleIncrementPerSecond() const;
     void setAngleIncrementPerSecond(double AngleIncrementPerSecond);
 
     bool getScaleWithZoom() const;
+
+    bool addLengthForChar(const QChar &c, double Length);
+    const QMap<QChar, double> &getLengths() const;
 
 private:
     void Recalculate();
@@ -61,6 +65,7 @@ private:
     std::unique_ptr<IDoubleFromDepthCalculator> m_LineThicknessCalculator;
     std::unique_ptr<IDoubleFromDepthCalculator> m_SegmentLengthCalculator;
     double m_AngleIncrementPerSecond;
+    QMap<QChar, double> m_LengthForChar;
 };
 
 #endif // RULESYSTEM_H

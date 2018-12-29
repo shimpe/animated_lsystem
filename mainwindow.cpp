@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(new QGraphicsScene());
 
     RuleSystemPreset Presets;
-    *m_RuleSystem = Presets.CreateRuleSystem(TWO_EYES_OF_SAURON);
+    *m_RuleSystem = Presets.CreateRuleSystem(DANDELIONS);
 
     connect(m_Timer.get(), SIGNAL(timeout()), this, SLOT(animate()));
     m_Timer->start(TIMERDURATION);

@@ -108,10 +108,10 @@ void StringInterpreter::Draw(RuleSystem &RuleSystem,
                     {
                         QVector2D newPos;
                         int depth = m_PositionStack.size();
-                        newPos.setX(currentPosition.x() + RuleSystem.getSegmentLength(depth)*cos(qDegreesToRadians(currentAngle)));
-                        newPos.setY(currentPosition.y() + RuleSystem.getSegmentLength(depth)*sin(qDegreesToRadians(currentAngle)));
+                        newPos.setX(currentPosition.x() + RuleSystem.getSegmentLength(c,depth)*cos(qDegreesToRadians(currentAngle)));
+                        newPos.setY(currentPosition.y() + RuleSystem.getSegmentLength(c,depth)*sin(qDegreesToRadians(currentAngle)));
                         QPen Pen(QBrush(GetColor(depth), Qt::SolidPattern),
-                                 RuleSystem.getLineThickness(depth));
+                                 RuleSystem.getLineThickness(c, depth));
                         Pen.setCosmetic(!RuleSystem.getScaleWithZoom());
                         view.scene()->addLine(QLineF(QPointF(currentPosition.x(), currentPosition.y()),
                                                       QPointF(newPos.x(), newPos.y())),

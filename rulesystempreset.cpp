@@ -4,6 +4,9 @@
 #include "idoublefromdepthcalculator.h"
 #include "lineardepthvaluescaler.h"
 #include "constantvalueprovider.h"
+#include <QMap>
+#include <QChar>
+#include "charactervaluelookup.h"
 
 RuleSystemPreset::RuleSystemPreset()
 {
@@ -219,6 +222,26 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.setThicknessCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 2)));
         }
         break;
+
+        case DANDELIONS:
+        {
+            rs.setAxiom("X+Y-X");
+            rs.addRule(Rule("X", "X+C0X+[Y]-C1X", 1.0));
+            rs.addRule(Rule("Y", "Y-[Y]-C2Y+C3X", 1.0));
+            rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
+            rs.setAngleIncrementPerSecond(0.3);
+            rs.setThicknessCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 2)));
+            QMap<QChar, double> LengthForSymbol;
+            LengthForSymbol['X'] = 10;
+            LengthForSymbol['Y'] = -5;
+            rs.setSegmentLengthCalculator(std::unique_ptr<CharacterValueLookup>(new CharacterValueLookup(LengthForSymbol, 10)));
+            rs.addColor(QColor::fromRgb(140, 80, 60, static_cast<int>(0.5*255)));  // brown
+            rs.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255))); // green
+            rs.addColor(QColor::fromRgb(255, 211, 0, static_cast<int>(0.75*255))); // yellow
+            rs.addColor(QColor::fromRgb(64, 64, 255, static_cast<int>(0.5*255)));  // blue
+
+        }
+        break;
     }
     return rs;
 }
@@ -263,6 +286,8 @@ double RuleSystemPreset::GetRecommendedAngle(RSP type) const
             return 89;
         case TWO_EYES_OF_SAURON:
             return 35;
+        case DANDELIONS:
+            return 40;
     }
 
     return 0.0;

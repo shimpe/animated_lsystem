@@ -12,7 +12,7 @@ ConstantValueProvider::ConstantValueProvider(bool ScaleWithZoom, double thicknes
 {
 }
 
-double ConstantValueProvider::Calculate(int /*depth*/)
+double ConstantValueProvider::Calculate(const QChar &/*c*/, int /*depth*/)
 {
     return m_Thickness;
 }
