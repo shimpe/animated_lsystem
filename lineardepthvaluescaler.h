@@ -4,20 +4,21 @@
 #include "idoublefromdepthcalculator.h"
 
 enum LinearThicknessMode {
-    DEEPER_IS_THINNER,
-    DEEPER_IS_THICKER
+    DEEPER_IS_LESS,
+    DEEPER_IS_MORE
 };
 
-class LinearDepthLineThickness : public IDoubleFromDepthCalculator
+class LinearDepthValueScaler : public IDoubleFromDepthCalculator
 {
 public:
-    LinearDepthLineThickness(LinearThicknessMode mode, int maxdepth, double scale);
+    LinearDepthValueScaler(LinearThicknessMode mode, int maxdepth, double scale, double offset);
     virtual double Calculate(int depth) override;
 
 private:
     LinearThicknessMode m_Mode;
     int m_MaxDepth;
     double m_Scale;
+    double m_Offset;
 };
 
 #endif // LINEARDEPTHLINETHICKNESS_H

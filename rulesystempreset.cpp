@@ -2,7 +2,8 @@
 #include <QColor>
 #include "rule.h"
 #include "idoublefromdepthcalculator.h"
-#include "lineardepthlinethickness.h"
+#include "lineardepthvaluescaler.h"
+#include "constantvalueprovider.h"
 
 RuleSystemPreset::RuleSystemPreset()
 {
@@ -47,7 +48,8 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.addColor(green);
             rs.addColor(blue);
             rs.setNoOfIterations(NoOfIterations == -1 ? 4 : NoOfIterations);
-            rs.setThicknessCalculator(std::unique_ptr<LinearDepthLineThickness>(new LinearDepthLineThickness(DEEPER_IS_THINNER, 10, 0.5)));
+            rs.setThicknessCalculator(std::unique_ptr<LinearDepthValueScaler>(new LinearDepthValueScaler(DEEPER_IS_LESS, 10, 0.5, 0)));
+            rs.setSegmentLengthCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(10)));
         }
         break;
 
