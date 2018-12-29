@@ -7,6 +7,7 @@
 #include <QRectF>
 #include <QPointF>
 #include <QLineF>
+#include "rulesystem.h"
 
 #include <QDebug>
 
@@ -21,13 +22,15 @@ StringInterpreter::~StringInterpreter()
 {
 }
 
-void StringInterpreter::Draw(const QString &String,
-                             const QSet<QChar> &Constants,
-                             const QVector<QColor> &Colors,
+void StringInterpreter::Draw(RuleSystem &RuleSystem,
                              double AngleInDegrees,
                              bool ClearScreen,
                              MainWindow* window)
 {
+    const QString &String = RuleSystem.CalculatedString();
+    const QSet<QChar> &Constants = RuleSystem.getConstants();
+    const QVector<QColor> &Colors = RuleSystem.getColors();
+
     qreal minx = 1e100;
     qreal miny = 1e100;
     qreal maxx = -1e100;
@@ -110,7 +113,7 @@ void StringInterpreter::Draw(const QString &String,
                         view.scene()->addLine(QLineF(QPointF(currentPosition.x(), currentPosition.y()),
                                                       QPointF(newPos.x(), newPos.y())),
                                                QPen(QBrush(GetColor(depth), Qt::SolidPattern),
-                                                    GetThickness(depth)));
+                                                    RuleSystem.getLineThickness(depth)));
                         currentPosition = newPos;
 
                         if (newPos.x() < minx)
@@ -138,8 +141,8 @@ double StringInterpreter::GetLength(int /*depth*/) const
 
 float StringInterpreter::GetThickness(int depth) const
 {
-    //return (10-depth)/2.0;
-    return 0.0;
+    return (10-depth)/2.0;
+    //return 0.0;
 }
 
 QColor StringInterpreter::GetColor(int /*depth*/) const

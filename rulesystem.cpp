@@ -2,7 +2,8 @@
 #include "rule.h"
 #include <QColor>
 #include <QRandomGenerator>
-
+#include "idoublefromdepthcalculator.h"
+#include "constantlinethickness.h"
 
 RuleSystem::RuleSystem()
     : m_NoOfIterations(0)
@@ -34,6 +35,18 @@ void RuleSystem::addColor(const QColor &c)
 const QVector<QColor> &RuleSystem::getColors() const
 {
     return m_Colors;
+}
+
+void RuleSystem::setThicknessCalculator(std::unique_ptr<IDoubleFromDepthCalculator> Calculator)
+{
+    m_LineThicknessCalculator = std::move(Calculator);
+}
+
+double RuleSystem::getLineThickness(int depth)
+{
+    if (!m_LineThicknessCalculator)
+        m_LineThicknessCalculator = std::unique_ptr<ConstantLineThickness>(new ConstantLineThickness(0));
+    return m_LineThicknessCalculator->Calculate(depth);
 }
 
 int RuleSystem::NoOfIterations() const

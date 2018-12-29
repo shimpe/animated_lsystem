@@ -6,6 +6,7 @@
 enum RSP {
     HEIGHWAY_DRAGON,
     RANDOMCIRCLE,
+    RANDOMCIRCLE_COLOR,
     KOCHCURVE,
     SIERPINSKY_CURVED,
     SIERPINSKY_TRIANGLES,
@@ -16,7 +17,8 @@ enum RSP {
     PENTAGON_LAKE,
     SIERPINSKY_CARPET,
     PENROSE_TILING,
-    PENROSE_TILING_TEST
+    PENROSE_TILING_COLOR,
+    EYE_OF_SAURON,
 };
 
 class RuleSystemPreset
@@ -24,7 +26,7 @@ class RuleSystemPreset
 public:
     RuleSystemPreset();
     RuleSystem CreateRuleSystem(RSP type, int NoOfIterations=-1); // -1 uses a default value
-    double GetDefaultAngle(RSP type) const;
+    double GetRecommendedAngle(RSP type) const;
 };
 
 #endif // RULESYSTEMPRESET_H

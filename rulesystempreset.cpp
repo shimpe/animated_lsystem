@@ -1,6 +1,8 @@
 #include "rulesystempreset.h"
 #include <QColor>
 #include "rule.h"
+#include "idoublefromdepthcalculator.h"
+#include "lineardepthlinethickness.h"
 
 RuleSystemPreset::RuleSystemPreset()
 {
@@ -26,6 +28,26 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.addRule(Rule("X", "X+YF-YX", 1.0));
             rs.addRule(Rule("Y", "-FX-Y", 1.0));
             rs.setNoOfIterations(NoOfIterations == -1 ? 6 : NoOfIterations);
+        }
+        break;
+
+        case RANDOMCIRCLE_COLOR:
+        {
+            rs.setAxiom("FX");
+            rs.addRule(Rule("X", "X+C0YF-YC1X", 1.0));
+            rs.addRule(Rule("Y", "-FC2X-Y", 1.0));
+
+            QColor red("red");
+            red.setAlphaF(0.5);
+            QColor green("green");
+            red.setAlphaF(0.5);
+            QColor blue("blue");
+            red.setAlphaF(0.5);
+            rs.addColor(red);
+            rs.addColor(green);
+            rs.addColor(blue);
+            rs.setNoOfIterations(NoOfIterations == -1 ? 4 : NoOfIterations);
+            rs.setThicknessCalculator(std::unique_ptr<LinearDepthLineThickness>(new LinearDepthLineThickness(DEEPER_IS_THINNER, 10, 0.5)));
         }
         break;
 
@@ -133,7 +155,7 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
         }
         break;
 
-        case PENROSE_TILING_TEST:
+        case PENROSE_TILING_COLOR:
         {
             rs.setAxiom("[C0B]++[C1B]++[C2B]++[C3B]++[C0B]");
             rs.addConstant('A');
@@ -153,6 +175,14 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
         }
         break;
 
+        case EYE_OF_SAURON:
+        {
+            rs.setAxiom("X+X+X");
+            rs.addRule(Rule("X","X+[X-X]+X", 1.0));
+            rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
+        }
+        break;
+
         default:
         {
             return rs;
@@ -161,7 +191,7 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
     return rs;
 }
 
-double RuleSystemPreset::GetDefaultAngle(RSP type) const
+double RuleSystemPreset::GetRecommendedAngle(RSP type) const
 {
     switch(type)
     {
@@ -189,8 +219,12 @@ double RuleSystemPreset::GetDefaultAngle(RSP type) const
             return 90;
         case PENROSE_TILING:
             return 36;
-        case PENROSE_TILING_TEST:
+        case PENROSE_TILING_COLOR:
             return 36;
+        case RANDOMCIRCLE_COLOR:
+            return 53;
+        case EYE_OF_SAURON:
+            return 30;
     }
 
     return 0.0;

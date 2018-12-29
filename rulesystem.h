@@ -4,10 +4,12 @@
 #include <QVector>
 #include <QString>
 #include <QSet>
+#include <memory>
 
 class Rule;
 class QChar;
 class QColor;
+class IDoubleFromDepthCalculator;
 
 class RuleSystem
 {
@@ -34,6 +36,9 @@ public:
     void addColor(const QColor &c);
     const QVector<QColor> &getColors() const;
 
+    void setThicknessCalculator(std::unique_ptr<IDoubleFromDepthCalculator> Calculator);
+    double getLineThickness(int depth);
+
 private:
     void Recalculate();
 
@@ -45,6 +50,7 @@ private:
     QString m_CalculatedString;
     bool m_CacheUpToDate;
     QVector<QColor> m_Colors;
+    std::unique_ptr<IDoubleFromDepthCalculator> m_LineThicknessCalculator;
 };
 
 #endif // RULESYSTEM_H

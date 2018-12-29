@@ -6,6 +6,8 @@ class QGraphicsView;
 class QVector2D;
 class QColor;
 class QChar;
+class RuleSystem;
+class MainWindow;
 
 #include <QStack>
 #include <QSet>
@@ -16,9 +18,7 @@ public:
     StringInterpreter();
     ~StringInterpreter();
 
-    void Draw(const QString &String,
-              const QSet<QChar> &Constants,
-              const QVector<QColor> &Colors,
+    void Draw(RuleSystem &RuleSystem,
               double AngleInDegrees,
               bool ClearScreen,
               MainWindow *window);

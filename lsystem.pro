@@ -30,14 +30,20 @@ SOURCES += \
     rulesystem.cpp \
     rule.cpp \
     stringinterpreter.cpp \
-    rulesystempreset.cpp
+    rulesystempreset.cpp \
+    idoublefromdepthcalculator.cpp \
+    constantlinethickness.cpp \
+    lineardepthlinethickness.cpp
 
 HEADERS += \
         mainwindow.h \
     rulesystem.h \
     rule.h \
     stringinterpreter.h \
-    rulesystempreset.h
+    rulesystempreset.h \
+    idoublefromdepthcalculator.h \
+    constantlinethickness.h \
+    lineardepthlinethickness.h
 
 FORMS += \
         mainwindow.ui

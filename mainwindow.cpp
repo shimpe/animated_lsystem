@@ -6,6 +6,7 @@
 #include "rulesystempreset.h"
 #include "rule.h"
 #include <QTimer>
+#include "idoublefromdepthcalculator.h"
 
 #define TIMERDURATION 100
 
@@ -21,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(new QGraphicsScene());
 
     RuleSystemPreset Presets;
-    *m_RuleSystem = Presets.CreateRuleSystem(PENROSE_TILING_TEST);
+    *m_RuleSystem = Presets.CreateRuleSystem(RANDOMCIRCLE_COLOR);
 
     connect(m_Timer.get(), SIGNAL(timeout()), this, SLOT(animate()));
     m_Timer->start(TIMERDURATION);
@@ -43,9 +44,7 @@ void MainWindow::animate()
     m_Ticks += 1;
     auto time_seconds = m_Ticks*TIMERDURATION/1000.0;
     auto Angle = time_seconds;
-    m_Interpreter->Draw(m_RuleSystem->CalculatedString(),
-                        m_RuleSystem->getConstants(),
-                        m_RuleSystem->getColors(),
+    m_Interpreter->Draw(*m_RuleSystem,
                         Angle,
                         true,
                         this);
