@@ -219,11 +219,6 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.setThicknessCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 2)));
         }
         break;
-
-        default:
-        {
-            return rs;
-        }
     }
     return rs;
 }
