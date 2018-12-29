@@ -8,6 +8,7 @@
 RuleSystem::RuleSystem()
     : m_NoOfIterations(0)
     , m_CacheUpToDate(false)
+    , m_AngleIncrementPerSecond(1.0)
 {
 }
 
@@ -45,7 +46,7 @@ void RuleSystem::setThicknessCalculator(std::unique_ptr<IDoubleFromDepthCalculat
 double RuleSystem::getLineThickness(int depth)
 {
     if (!m_LineThicknessCalculator)
-        m_LineThicknessCalculator = std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(0));
+        m_LineThicknessCalculator = std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 0));
     return m_LineThicknessCalculator->Calculate(depth);
 }
 
@@ -57,7 +58,7 @@ void RuleSystem::setSegmentLengthCalculator(std::unique_ptr<IDoubleFromDepthCalc
 double RuleSystem::getSegmentLength(int depth)
 {
     if (!m_SegmentLengthCalculator)
-        m_SegmentLengthCalculator = std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(10));
+        m_SegmentLengthCalculator = std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 10));
     return m_SegmentLengthCalculator->Calculate(depth);
 }
 
@@ -133,6 +134,24 @@ void RuleSystem::Recalculate()
         m_CalculatedString = newString;
     }
     m_CacheUpToDate = true;
+}
+
+double RuleSystem::getAngleIncrementPerSecond() const
+{
+    return m_AngleIncrementPerSecond;
+}
+
+void RuleSystem::setAngleIncrementPerSecond(double AngleIncrementPerSecond)
+{
+    m_AngleIncrementPerSecond = AngleIncrementPerSecond;
+}
+
+bool RuleSystem::getScaleWithZoom() const
+{
+    if (m_LineThicknessCalculator) {
+        return m_LineThicknessCalculator->ScaleWithZoom();
+    }
+    return true;
 }
 
 const QString &RuleSystem::Axiom() const

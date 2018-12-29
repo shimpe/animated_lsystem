@@ -48,8 +48,8 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.addColor(green);
             rs.addColor(blue);
             rs.setNoOfIterations(NoOfIterations == -1 ? 4 : NoOfIterations);
-            rs.setThicknessCalculator(std::unique_ptr<LinearDepthValueScaler>(new LinearDepthValueScaler(DEEPER_IS_LESS, 10, 0.5, 0)));
-            rs.setSegmentLengthCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(10)));
+            rs.setThicknessCalculator(std::unique_ptr<LinearDepthValueScaler>(new LinearDepthValueScaler(false, DEEPER_IS_LESS, 10, 0.5, 0)));
+            rs.setSegmentLengthCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 10)));
         }
         break;
 
@@ -180,8 +180,43 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
         case EYE_OF_SAURON:
         {
             rs.setAxiom("X+X+X");
-            rs.addRule(Rule("X","X+[X-X]+X", 1.0));
+            rs.addRule(Rule("X","C2X+[X-C0X]+C1X", 1.0));
+            rs.addColor(QColor::fromRgb(140, 80, 60, static_cast<int>(0.5*255)));  // brown
+            rs.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255))); // green
+            rs.addColor(QColor::fromRgb(255, 211, 0, static_cast<int>(0.75*255))); // yellow
+            rs.addColor(QColor::fromRgb(64, 64, 255, static_cast<int>(0.5*255)));  // blue
             rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
+        }
+        break;
+
+        case FERN_CLAW:
+        {
+            rs.setAxiom("X+X-X");
+            rs.addRule(Rule("X", "X+[X+X]-X", 1.0));
+            rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
+            rs.setThicknessCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 3)));
+        }
+        break;
+
+        case NECKLACE:
+        {
+            rs.setAxiom("X+Y-X");
+            rs.addRule(Rule("X", "X+X+X-X", 0.9));
+            rs.addRule(Rule("Y", "Y-Y-Y+Y", 0.7));
+            rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
+            rs.setAngleIncrementPerSecond(0.2);
+            rs.setThicknessCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 3)));
+        }
+        break;
+
+        case TWO_EYES_OF_SAURON:
+        {
+            rs.setAxiom("X+Y-X");
+            rs.addRule(Rule("X", "X+X+[X]-X", 1.0));
+            rs.addRule(Rule("Y", "Y-[Y]-Y+Y", 1.0));
+            rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
+            rs.setAngleIncrementPerSecond(0.1);
+            rs.setThicknessCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 2)));
         }
         break;
 
@@ -227,6 +262,12 @@ double RuleSystemPreset::GetRecommendedAngle(RSP type) const
             return 53;
         case EYE_OF_SAURON:
             return 30;
+        case FERN_CLAW:
+            return 80;
+        case NECKLACE:
+            return 89;
+        case TWO_EYES_OF_SAURON:
+            return 35;
     }
 
     return 0.0;

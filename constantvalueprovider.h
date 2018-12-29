@@ -6,8 +6,10 @@
 class ConstantValueProvider : public IDoubleFromDepthCalculator
 {
 public:
-    ConstantValueProvider(double thickness);
+    ConstantValueProvider();
+    ConstantValueProvider(bool ScaleWithZoom, double thickness);
     double Calculate(int depth) override;
+
 private:
     double m_Thickness;
 };

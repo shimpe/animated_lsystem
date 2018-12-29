@@ -19,6 +19,9 @@ enum RSP {
     PENROSE_TILING,
     PENROSE_TILING_COLOR,
     EYE_OF_SAURON,
+    FERN_CLAW,
+    NECKLACE,
+    TWO_EYES_OF_SAURON,
 };
 
 class RuleSystemPreset

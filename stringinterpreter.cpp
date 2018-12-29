@@ -110,10 +110,12 @@ void StringInterpreter::Draw(RuleSystem &RuleSystem,
                         int depth = m_PositionStack.size();
                         newPos.setX(currentPosition.x() + RuleSystem.getSegmentLength(depth)*cos(qDegreesToRadians(currentAngle)));
                         newPos.setY(currentPosition.y() + RuleSystem.getSegmentLength(depth)*sin(qDegreesToRadians(currentAngle)));
+                        QPen Pen(QBrush(GetColor(depth), Qt::SolidPattern),
+                                 RuleSystem.getLineThickness(depth));
+                        Pen.setCosmetic(!RuleSystem.getScaleWithZoom());
                         view.scene()->addLine(QLineF(QPointF(currentPosition.x(), currentPosition.y()),
                                                       QPointF(newPos.x(), newPos.y())),
-                                               QPen(QBrush(GetColor(depth), Qt::SolidPattern),
-                                                    RuleSystem.getLineThickness(depth)));
+                                              Pen);
                         currentPosition = newPos;
 
                         if (newPos.x() < minx)

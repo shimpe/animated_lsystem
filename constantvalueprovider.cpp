@@ -1,7 +1,13 @@
 #include "constantvalueprovider.h"
 
-ConstantValueProvider::ConstantValueProvider(double thickness)
-    : IDoubleFromDepthCalculator()
+ConstantValueProvider::ConstantValueProvider()
+    : IDoubleFromDepthCalculator (false)
+    , m_Thickness(0)
+{
+}
+
+ConstantValueProvider::ConstantValueProvider(bool ScaleWithZoom, double thickness)
+    : IDoubleFromDepthCalculator(ScaleWithZoom)
     , m_Thickness(thickness)
 {
 }

@@ -1,7 +1,16 @@
 #include "lineardepthvaluescaler.h"
 
-LinearDepthValueScaler::LinearDepthValueScaler(LinearThicknessMode mode, int maxdepth, double scale, double offset)
-    : IDoubleFromDepthCalculator()
+LinearDepthValueScaler::LinearDepthValueScaler()
+    : IDoubleFromDepthCalculator (false)
+    , m_Mode(DEEPER_IS_LESS)
+    , m_MaxDepth(10)
+    , m_Scale(1.0)
+    , m_Offset(0)
+{
+}
+
+LinearDepthValueScaler::LinearDepthValueScaler(bool ScaleWithZoom, LinearThicknessMode mode, int maxdepth, double scale, double offset)
+    : IDoubleFromDepthCalculator(ScaleWithZoom)
     , m_Mode(mode)
     , m_MaxDepth(maxdepth)
     , m_Scale(scale)

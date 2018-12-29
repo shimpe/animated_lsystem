@@ -42,6 +42,11 @@ public:
     void setSegmentLengthCalculator(std::unique_ptr<IDoubleFromDepthCalculator> Calculator);
     double getSegmentLength(int depth);
 
+    double getAngleIncrementPerSecond() const;
+    void setAngleIncrementPerSecond(double AngleIncrementPerSecond);
+
+    bool getScaleWithZoom() const;
+
 private:
     void Recalculate();
 
@@ -55,6 +60,7 @@ private:
     QVector<QColor> m_Colors;
     std::unique_ptr<IDoubleFromDepthCalculator> m_LineThicknessCalculator;
     std::unique_ptr<IDoubleFromDepthCalculator> m_SegmentLengthCalculator;
+    double m_AngleIncrementPerSecond;
 };
 
 #endif // RULESYSTEM_H

@@ -11,7 +11,8 @@ enum LinearThicknessMode {
 class LinearDepthValueScaler : public IDoubleFromDepthCalculator
 {
 public:
-    LinearDepthValueScaler(LinearThicknessMode mode, int maxdepth, double scale, double offset);
+    LinearDepthValueScaler();
+    LinearDepthValueScaler(bool ScaleWithZoom, LinearThicknessMode mode, int maxdepth, double scale, double offset);
     virtual double Calculate(int depth) override;
 
 private:

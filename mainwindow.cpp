@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(new QGraphicsScene());
 
     RuleSystemPreset Presets;
-    *m_RuleSystem = Presets.CreateRuleSystem(RANDOMCIRCLE_COLOR);
+    *m_RuleSystem = Presets.CreateRuleSystem(TWO_EYES_OF_SAURON);
 
     connect(m_Timer.get(), SIGNAL(timeout()), this, SLOT(animate()));
     m_Timer->start(TIMERDURATION);
@@ -43,7 +43,7 @@ void MainWindow::animate()
 {
     m_Ticks += 1;
     auto time_seconds = m_Ticks*TIMERDURATION/1000.0;
-    auto Angle = time_seconds;
+    auto Angle = time_seconds*m_RuleSystem->getAngleIncrementPerSecond();
     m_Interpreter->Draw(*m_RuleSystem,
                         Angle,
                         true,
