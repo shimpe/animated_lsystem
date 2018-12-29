@@ -24,8 +24,6 @@ public:
               MainWindow *window);
 
 private:
-    double GetLength(int depth) const;
-    float GetThickness(int depth) const;
     QColor GetColor(int depth) const;
 
 private:

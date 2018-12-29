@@ -39,6 +39,9 @@ public:
     void setThicknessCalculator(std::unique_ptr<IDoubleFromDepthCalculator> Calculator);
     double getLineThickness(int depth);
 
+    void setSegmentLengthCalculator(std::unique_ptr<IDoubleFromDepthCalculator> Calculator);
+    double getSegmentLength(int depth);
+
 private:
     void Recalculate();
 
@@ -51,6 +54,7 @@ private:
     bool m_CacheUpToDate;
     QVector<QColor> m_Colors;
     std::unique_ptr<IDoubleFromDepthCalculator> m_LineThicknessCalculator;
+    std::unique_ptr<IDoubleFromDepthCalculator> m_SegmentLengthCalculator;
 };
 
 #endif // RULESYSTEM_H

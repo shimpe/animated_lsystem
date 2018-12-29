@@ -108,8 +108,8 @@ void StringInterpreter::Draw(RuleSystem &RuleSystem,
                     {
                         QVector2D newPos;
                         int depth = m_PositionStack.size();
-                        newPos.setX(currentPosition.x() + GetLength(depth)*cos(qDegreesToRadians(currentAngle)));
-                        newPos.setY(currentPosition.y() + GetLength(depth)*sin(qDegreesToRadians(currentAngle)));
+                        newPos.setX(currentPosition.x() + RuleSystem.getSegmentLength(depth)*cos(qDegreesToRadians(currentAngle)));
+                        newPos.setY(currentPosition.y() + RuleSystem.getSegmentLength(depth)*sin(qDegreesToRadians(currentAngle)));
                         view.scene()->addLine(QLineF(QPointF(currentPosition.x(), currentPosition.y()),
                                                       QPointF(newPos.x(), newPos.y())),
                                                QPen(QBrush(GetColor(depth), Qt::SolidPattern),
@@ -132,17 +132,6 @@ void StringInterpreter::Draw(RuleSystem &RuleSystem,
     }
 
     window->View().scene()->setSceneRect(QRectF(QPointF(minx,miny), QPointF(maxx,maxy)));
-}
-
-double StringInterpreter::GetLength(int /*depth*/) const
-{
-    return 10.0;
-}
-
-float StringInterpreter::GetThickness(int depth) const
-{
-    return (10-depth)/2.0;
-    //return 0.0;
 }
 
 QColor StringInterpreter::GetColor(int /*depth*/) const

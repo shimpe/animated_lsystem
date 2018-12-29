@@ -49,6 +49,18 @@ double RuleSystem::getLineThickness(int depth)
     return m_LineThicknessCalculator->Calculate(depth);
 }
 
+void RuleSystem::setSegmentLengthCalculator(std::unique_ptr<IDoubleFromDepthCalculator> Calculator)
+{
+    m_SegmentLengthCalculator = std::move(Calculator);
+}
+
+double RuleSystem::getSegmentLength(int depth)
+{
+    if (!m_SegmentLengthCalculator)
+        m_SegmentLengthCalculator = std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(10));
+    return m_SegmentLengthCalculator->Calculate(depth);
+}
+
 int RuleSystem::NoOfIterations() const
 {
     return m_NoOfIterations;
