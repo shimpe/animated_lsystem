@@ -45,7 +45,7 @@ void RuleSystem::setThicknessCalculator(std::unique_ptr<IDoubleFromDepthCalculat
 double RuleSystem::getLineThickness(int depth)
 {
     if (!m_LineThicknessCalculator)
-        m_LineThicknessCalculator = std::unique_ptr<ConstantLineThickness>(new ConstantLineThickness(0));
+        m_LineThicknessCalculator = std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(0));
     return m_LineThicknessCalculator->Calculate(depth);
 }
 

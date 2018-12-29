@@ -3,10 +3,10 @@
 
 #include "idoublefromdepthcalculator.h"
 
-class ConstantLineThickness : public IDoubleFromDepthCalculator
+class ConstantValueProvider : public IDoubleFromDepthCalculator
 {
 public:
-    ConstantLineThickness(double thickness);
+    ConstantValueProvider(double thickness);
     double Calculate(int depth) override;
 private:
     double m_Thickness;
