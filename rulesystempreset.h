@@ -34,7 +34,7 @@ class RuleSystemPreset
 public:
     RuleSystemPreset();
     RuleSystem CreateRuleSystem(RSP type, int NoOfIterations=-1); // -1 uses a default value
-    double GetRecommendedAngle(RSP type) const;
+    double getRecommendedAngle(RSP type) const;
 };
 
 #endif // RULESYSTEMPRESET_H

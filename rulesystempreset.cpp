@@ -291,14 +291,14 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.addRule(Rule("F", "F++F++F|F-F++F", 1.0));
             rs.setNoOfIterations(NoOfIterations == -1 ? 3 : NoOfIterations);
             rs.setAngleIncrementPerSecond(0.01);
-            rs.setInitialAnimationAngle(GetRecommendedAngle(PENTAPLEXITY)-0.3);
+            rs.setInitialAnimationAngle(getRecommendedAngle(PENTAPLEXITY)-0.3);
         }
         break;
     }
     return rs;
 }
 
-double RuleSystemPreset::GetRecommendedAngle(RSP type) const
+double RuleSystemPreset::getRecommendedAngle(RSP type) const
 {
     switch(type)
     {
