@@ -7,6 +7,7 @@
 #include "rule.h"
 #include <QTimer>
 #include "idoublefromdepthcalculator.h"
+//#include <QGLWidget>
 
 #define TIMERDURATION (1000/25)
 
@@ -20,9 +21,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->graphicsView->setScene(new QGraphicsScene());
+    //ui->graphicsView->setViewport(new QGLWidget());
 
     RuleSystemPreset Presets;
-    *m_RuleSystem = Presets.CreateRuleSystem(KOCH_ISLAND);
+    *m_RuleSystem = Presets.CreateRuleSystem(PENTAPLEXITY);
 
     connect(m_Timer.get(), SIGNAL(timeout()), this, SLOT(animate()));
     m_Timer->start(TIMERDURATION);
@@ -43,7 +45,7 @@ void MainWindow::animate()
 {
     m_Ticks += 1;
     auto time_seconds = m_Ticks*TIMERDURATION/1000.0;
-    auto Angle = time_seconds*m_RuleSystem->getAngleIncrementPerSecond();
+    auto Angle = m_RuleSystem->getInitialAnimationAngle() + time_seconds*m_RuleSystem->getAngleIncrementPerSecond();
     m_Interpreter->Draw(*m_RuleSystem,
                         Angle,
                         true,

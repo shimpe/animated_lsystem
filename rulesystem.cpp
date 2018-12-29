@@ -4,11 +4,14 @@
 #include <QRandomGenerator>
 #include "idoublefromdepthcalculator.h"
 #include "constantvalueprovider.h"
+#include <QDebug>
 
 RuleSystem::RuleSystem()
     : m_NoOfIterations(0)
     , m_CacheUpToDate(false)
     , m_AngleIncrementPerSecond(1.0)
+    , m_InitialAngle(270)
+    , m_InitialAnimationAngle(0)
 {
 }
 
@@ -134,6 +137,38 @@ void RuleSystem::Recalculate()
         m_CalculatedString = newString;
     }
     m_CacheUpToDate = true;
+
+    qDebug() << "Total string length: " << m_CalculatedString.length();
+}
+
+double RuleSystem::getInitialAnimationAngle() const
+{
+    return m_InitialAnimationAngle;
+}
+
+void RuleSystem::setInitialAnimationAngle(double InitialAnimationAngle)
+{
+    m_InitialAnimationAngle = InitialAnimationAngle;
+}
+
+const QVector2D &RuleSystem::getInitialPosition() const
+{
+    return m_InitialPosition;
+}
+
+void RuleSystem::setInitialPosition(const QVector2D &InitialPosition)
+{
+    m_InitialPosition = InitialPosition;
+}
+
+double RuleSystem::getInitialAngle() const
+{
+    return m_InitialAngle;
+}
+
+void RuleSystem::setInitialAngle(double InitialAngle)
+{
+    m_InitialAngle = InitialAngle;
 }
 
 double RuleSystem::getAngleIncrementPerSecond() const

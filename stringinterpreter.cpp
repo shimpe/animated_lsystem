@@ -9,8 +9,6 @@
 #include <QLineF>
 #include "rulesystem.h"
 
-#include <QDebug>
-
 StringInterpreter::StringInterpreter()
 {
     QColor Default("black");
@@ -38,8 +36,8 @@ void StringInterpreter::Draw(RuleSystem &RuleSystem,
 
     bool nextCharIsColor = false;
 
-    QVector2D currentPosition;
-    double currentAngle = 270.0;
+    QVector2D currentPosition = RuleSystem.getInitialPosition();
+    double currentAngle = RuleSystem.getInitialAngle();
     m_PositionStack.clear();
     m_PositionStack.push(currentPosition);
     m_AngleStack.clear();
@@ -79,6 +77,14 @@ void StringInterpreter::Draw(RuleSystem &RuleSystem,
                 case '-':
                 {
                     currentAngle = currentAngle - AngleInDegrees;
+                }
+                break;
+
+                case '|':
+                {
+                    currentAngle = currentAngle + 180;
+                    while (currentAngle > 360)
+                        currentAngle = currentAngle - 360;
                 }
                 break;
 

@@ -278,9 +278,20 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
         {
             rs.setAxiom("F-F-F-F");
             rs.addRule(Rule("F","F-f+FF-F-FF-Ff-FF+f-FF+F+FF+Ff+FFF",1.0));
-            rs.addRule(Rule("f", "ffffff", 1.0));
-            rs.setThicknessCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 10)));
-            rs.setNoOfIterations(NoOfIterations == -1 ? 2 : NoOfIterations);
+            rs.addRule(Rule("f", "ffffff", 5.0));
+            rs.setThicknessCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 0)));
+            rs.setNoOfIterations(NoOfIterations == -1 ? 3 : NoOfIterations);
+            rs.setAngleIncrementPerSecond(3.0);
+        }
+        break;
+
+        case PENTAPLEXITY:
+        {
+            rs.setAxiom("F++F++F++F++F");
+            rs.addRule(Rule("F", "F++F++F|F-F++F", 1.0));
+            rs.setNoOfIterations(NoOfIterations == -1 ? 3 : NoOfIterations);
+            rs.setAngleIncrementPerSecond(0.01);
+            rs.setInitialAnimationAngle(GetRecommendedAngle(PENTAPLEXITY)-0.3);
         }
         break;
     }
@@ -335,6 +346,8 @@ double RuleSystemPreset::GetRecommendedAngle(RSP type) const
             return 15;
         case KOCH_ISLAND:
             return 90;
+        case PENTAPLEXITY:
+            return 36;
     }
 
     return 0.0;

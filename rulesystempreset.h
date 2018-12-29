@@ -26,6 +26,7 @@ enum RSP {
     ABSTRACT_DANCE,
     KOLAM_PATTERN,
     KOCH_ISLAND,
+    PENTAPLEXITY,
 };
 
 class RuleSystemPreset

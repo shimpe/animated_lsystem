@@ -6,6 +6,7 @@
 #include <QSet>
 #include <memory>
 #include <QMap>
+#include <QVector2D>
 
 class Rule;
 class QChar;
@@ -51,6 +52,15 @@ public:
     bool addLengthForChar(const QChar &c, double Length);
     const QMap<QChar, double> &getLengths() const;
 
+    double getInitialAngle() const;
+    void setInitialAngle(double InitialAngle);
+
+    const QVector2D &getInitialPosition() const;
+    void setInitialPosition(const QVector2D &InitialPosition);
+
+    double getInitialAnimationAngle() const;
+    void setInitialAnimationAngle(double InitialAnimationAngle);
+
 private:
     void Recalculate();
 
@@ -66,6 +76,9 @@ private:
     std::unique_ptr<IDoubleFromDepthCalculator> m_SegmentLengthCalculator;
     double m_AngleIncrementPerSecond;
     QMap<QChar, double> m_LengthForChar;
+    double m_InitialAngle;
+    QVector2D m_InitialPosition;
+    double m_InitialAnimationAngle;
 };
 
 #endif // RULESYSTEM_H
