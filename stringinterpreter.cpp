@@ -124,6 +124,11 @@ void StringInterpreter::Draw(RuleSystem &RuleSystem,
                             view.scene()->addLine(QLineF(QPointF(currentPosition.x(), currentPosition.y()),
                                                           QPointF(newPos.x(), newPos.y())),
                                                   Pen);
+                            /*
+                            view.scene()->addEllipse(QRectF(QPointF(currentPosition.x(), currentPosition.y()),
+                                                            QPointF(newPos.x(), newPos.y())),
+                                                     Pen);
+                            */
                         }
                         currentPosition = newPos;
 
