@@ -7,14 +7,17 @@
 #include <QMap>
 #include <QChar>
 #include "charactervaluelookup.h"
+#include "renderhints.h"
 
-RuleSystemPreset::RuleSystemPreset()
+
+RuleSystemPresetFactory::RuleSystemPresetFactory()
 {
 }
 
-RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
+LSystemPreset RuleSystemPresetFactory::CreateRuleSystemPreset(RSP type, int NoOfIterations)
 {
     RuleSystem rs;
+    RenderHints rh;
     switch (type)
     {
         case HEIGHWAY_DRAGON:
@@ -40,6 +43,7 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.setAxiom("FX");
             rs.addRule(Rule("X", "X+C0YF-YC1X", 1.0));
             rs.addRule(Rule("Y", "-FC2X-Y", 1.0));
+            rs.setNoOfIterations(NoOfIterations == -1 ? 4 : NoOfIterations);
 
             QColor red("red");
             red.setAlphaF(0.5);
@@ -47,12 +51,11 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             red.setAlphaF(0.5);
             QColor blue("blue");
             red.setAlphaF(0.5);
-            rs.addColor(red);
-            rs.addColor(green);
-            rs.addColor(blue);
-            rs.setNoOfIterations(NoOfIterations == -1 ? 4 : NoOfIterations);
-            rs.setThicknessCalculator(std::unique_ptr<LinearDepthValueScaler>(new LinearDepthValueScaler(false, DEEPER_IS_LESS, 10, 0.5, 0)));
-            rs.setSegmentLengthCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 10)));
+            rh.addColor(red);
+            rh.addColor(green);
+            rh.addColor(blue);
+            rh.setThicknessCalculator(std::make_shared<LinearDepthValueScaler>(false, DEEPER_IS_LESS, 10, 0.5, 0));
+            rh.setSegmentLengthCalculator(std::make_shared<ConstantValueProvider>(false, 10));
         }
         break;
 
@@ -96,11 +99,12 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
         {
             rs.setAxiom("F");
             rs.addRule(Rule("F", "C0FF-[C1-F+F+F]+[C2+F-F-F]", 1.0));
-            rs.addColor(QColor::fromRgb(140, 80, 60, static_cast<int>(0.75*255)));
-            rs.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255)));
-            rs.addColor(QColor::fromRgb(48, 220, 48, static_cast<int>(0.5*255)));
-            rs.addColor(QColor::fromRgb(64, 255, 64, static_cast<int>(0.5*255)));
             rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
+
+            rh.addColor(QColor::fromRgb(140, 80, 60, static_cast<int>(0.75*255)));
+            rh.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255)));
+            rh.addColor(QColor::fromRgb(48, 220, 48, static_cast<int>(0.5*255)));
+            rh.addColor(QColor::fromRgb(64, 255, 64, static_cast<int>(0.5*255)));
         }
         break;
 
@@ -109,11 +113,13 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.setAxiom("FX");
             rs.addRule(Rule("F", "C0FF-[C1-F+F]+[C2+F-F]", 1.0));
             rs.addRule(Rule("X", "C0FF+[C1+F]+[C3-F]", 1.0));
-            rs.addColor(QColor::fromRgb(140, 80, 60, static_cast<int>(0.75*255)));
-            rs.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255)));
-            rs.addColor(QColor::fromRgb(48, 220, 48, static_cast<int>(0.5*255)));
-            rs.addColor(QColor::fromRgb(64, 255, 64, static_cast<int>(0.5*255)));
             rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
+
+            rh.addColor(QColor::fromRgb(140, 80, 60, static_cast<int>(0.75*255)));
+            rh.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255)));
+            rh.addColor(QColor::fromRgb(48, 220, 48, static_cast<int>(0.5*255)));
+            rh.addColor(QColor::fromRgb(64, 255, 64, static_cast<int>(0.5*255)));
+
         }
         break;
 
@@ -167,16 +173,17 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.addConstant('B');
             rs.addConstant('Z');
             rs.addConstant('D');
-            rs.addColor(QColor::fromRgb(140, 80, 60, static_cast<int>(0.5*255)));  // brown
-            rs.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255))); // green
-            rs.addColor(QColor::fromRgb(255, 211, 0, static_cast<int>(0.75*255))); // yellow
-            rs.addColor(QColor::fromRgb(64, 64, 255, static_cast<int>(0.5*255)));  // blue
             rs.addRule(Rule("A", "ZE++DE----BE[-ZE----AE]++", 1.0));
             rs.addRule(Rule("B", "+ZE--DE[---AE--BE]+", 1.0));
             rs.addRule(Rule("Z", "-AE++BE[+++ZE++DE]-", 1.0));
             rs.addRule(Rule("D", "--ZE++++AE[+DE++++BE]--BE", 1.0));
             rs.addRule(Rule("E","",1.0));
             rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
+
+            rh.addColor(QColor::fromRgb(140, 80, 60, static_cast<int>(0.5*255)));  // brown
+            rh.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255))); // green
+            rh.addColor(QColor::fromRgb(255, 211, 0, static_cast<int>(0.75*255))); // yellow
+            rh.addColor(QColor::fromRgb(64, 64, 255, static_cast<int>(0.5*255)));  // blue
         }
         break;
 
@@ -184,11 +191,12 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
         {
             rs.setAxiom("X+X+X");
             rs.addRule(Rule("X","C2X+[X-C0X]+C1X", 1.0));
-            rs.addColor(QColor::fromRgb(140, 80, 60, static_cast<int>(0.5*255)));  // brown
-            rs.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255))); // green
-            rs.addColor(QColor::fromRgb(255, 211, 0, static_cast<int>(0.75*255))); // yellow
-            rs.addColor(QColor::fromRgb(64, 64, 255, static_cast<int>(0.5*255)));  // blue
             rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
+
+            rh.addColor(QColor::fromRgb(140, 80, 60, static_cast<int>(0.5*255)));  // brown
+            rh.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255))); // green
+            rh.addColor(QColor::fromRgb(255, 211, 0, static_cast<int>(0.75*255))); // yellow
+            rh.addColor(QColor::fromRgb(64, 64, 255, static_cast<int>(0.5*255)));  // blue
         }
         break;
 
@@ -197,7 +205,8 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.setAxiom("X+X-X");
             rs.addRule(Rule("X", "X+[X+X]-X", 1.0));
             rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
-            rs.setThicknessCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 3)));
+
+            rh.setThicknessCalculator(std::make_shared<ConstantValueProvider>(false, 3));
         }
         break;
 
@@ -207,8 +216,9 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.addRule(Rule("X", "X+X+X-X", 0.9));
             rs.addRule(Rule("Y", "Y-Y-Y+Y", 0.7));
             rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
-            rs.setAngleIncrementPerSecond(0.2);
-            rs.setThicknessCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 3)));
+
+            rh.setAngleIncrementPerSecond(0.2);
+            rh.setThicknessCalculator(std::make_shared<ConstantValueProvider>(false, 3));
         }
         break;
 
@@ -218,8 +228,9 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.addRule(Rule("X", "X+X+[X]-X", 1.0));
             rs.addRule(Rule("Y", "Y-[Y]-Y+Y", 1.0));
             rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
-            rs.setAngleIncrementPerSecond(0.1);
-            rs.setThicknessCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 2)));
+
+            rh.setAngleIncrementPerSecond(0.1);
+            rh.setThicknessCalculator(std::make_shared<ConstantValueProvider>(false, 2));
         }
         break;
 
@@ -229,16 +240,17 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.addRule(Rule("X", "X+C0X+[Y]-C1X", 1.0));
             rs.addRule(Rule("Y", "Y-[Y]-C2Y+C3X", 1.0));
             rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
-            rs.setAngleIncrementPerSecond(0.3);
-            rs.setThicknessCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 2)));
+
+            rh.setAngleIncrementPerSecond(0.3);
+            rh.setThicknessCalculator(std::make_shared<ConstantValueProvider>(false, 2));
             QMap<QChar, double> LengthForSymbol;
             LengthForSymbol['X'] = 10;
             LengthForSymbol['Y'] = -5;
-            rs.setSegmentLengthCalculator(std::unique_ptr<CharacterValueLookup>(new CharacterValueLookup(LengthForSymbol, 10)));
-            rs.addColor(QColor::fromRgb(140, 80, 60, static_cast<int>(0.5*255)));  // brown
-            rs.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255))); // green
-            rs.addColor(QColor::fromRgb(255, 211, 0, static_cast<int>(0.75*255))); // yellow
-            rs.addColor(QColor::fromRgb(64, 64, 255, static_cast<int>(0.5*255)));  // blue
+            rh.setSegmentLengthCalculator(std::make_shared<CharacterValueLookup>(LengthForSymbol, 10));
+            rh.addColor(QColor::fromRgb(140, 80, 60, static_cast<int>(0.5*255)));  // brown
+            rh.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255))); // green
+            rh.addColor(QColor::fromRgb(255, 211, 0, static_cast<int>(0.75*255))); // yellow
+            rh.addColor(QColor::fromRgb(64, 64, 255, static_cast<int>(0.5*255)));  // blue
         }
         break;
 
@@ -248,19 +260,20 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.addRule(Rule("X", "X+C0X+[Y]-C1X", 1.0));
             rs.addRule(Rule("Y", "Y-[Y]-C2Y+C3X", 1.0));
             rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
-            rs.setAngleIncrementPerSecond(0.4);
+
+            rh.setAngleIncrementPerSecond(0.2);
             QMap<QChar, double> ThicknessForSymbol;
             ThicknessForSymbol['X'] = 6;
             ThicknessForSymbol['Y'] = 0;
-            rs.setThicknessCalculator(std::unique_ptr<CharacterValueLookup>(new CharacterValueLookup(ThicknessForSymbol, 0)));
+            rh.setThicknessCalculator(std::make_shared<CharacterValueLookup>(ThicknessForSymbol, 0));
             QMap<QChar, double> LengthForSymbol;
             LengthForSymbol['X'] = 1;
             LengthForSymbol['Y'] = -15;
-            rs.setSegmentLengthCalculator(std::unique_ptr<CharacterValueLookup>(new CharacterValueLookup(LengthForSymbol, 10)));
-            rs.addColor(QColor::fromRgb(140, 80, 60, static_cast<int>(0.5*255)));  // brown
-            rs.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255))); // green
-            rs.addColor(QColor::fromRgb(255, 211, 0, static_cast<int>(0.75*255))); // yellow
-            rs.addColor(QColor::fromRgb(64, 64, 255, static_cast<int>(0.5*255)));  // blue
+            rh.setSegmentLengthCalculator(std::make_shared<CharacterValueLookup>(LengthForSymbol, 10));
+            rh.addColor(QColor::fromRgb(140, 80, 60, static_cast<int>(0.5*255)));  // brown
+            rh.addColor(QColor::fromRgb(24, 180, 24, static_cast<int>(0.75*255))); // green
+            rh.addColor(QColor::fromRgb(255, 211, 0, static_cast<int>(0.75*255))); // yellow
+            rh.addColor(QColor::fromRgb(64, 64, 255, static_cast<int>(0.5*255)));  // blue
         }
         break;
 
@@ -279,9 +292,10 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.setAxiom("F-F-F-F");
             rs.addRule(Rule("F","F-f+FF-F-FF-Ff-FF+f-FF+F+FF+Ff+FFF",1.0));
             rs.addRule(Rule("f", "ffffff", 5.0));
-            rs.setThicknessCalculator(std::unique_ptr<ConstantValueProvider>(new ConstantValueProvider(false, 0)));
             rs.setNoOfIterations(NoOfIterations == -1 ? 3 : NoOfIterations);
-            rs.setAngleIncrementPerSecond(3.0);
+
+            rh.setThicknessCalculator(std::make_shared<ConstantValueProvider>(false, 0));
+            rh.setAngleIncrementPerSecond(3.0);
         }
         break;
 
@@ -290,15 +304,16 @@ RuleSystem RuleSystemPreset::CreateRuleSystem(RSP type, int NoOfIterations)
             rs.setAxiom("F++F++F++F++F");
             rs.addRule(Rule("F", "F++F++F|F-F++F", 1.0));
             rs.setNoOfIterations(NoOfIterations == -1 ? 3 : NoOfIterations);
-            rs.setAngleIncrementPerSecond(0.01);
-            rs.setInitialAnimationAngle(getRecommendedAngle(PENTAPLEXITY)-0.3);
+
+            rh.setAngleIncrementPerSecond(0.01);
+            rh.setInitialAnimationAngle(getRecommendedAngle(PENTAPLEXITY)-0.3);
         }
         break;
     }
-    return rs;
+    return LSystemPreset(rs, rh);
 }
 
-double RuleSystemPreset::getRecommendedAngle(RSP type) const
+double RuleSystemPresetFactory::getRecommendedAngle(RSP type) const
 {
     switch(type)
     {

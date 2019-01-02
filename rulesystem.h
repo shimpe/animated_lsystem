@@ -17,6 +17,7 @@ class RuleSystem
 {
 public:
     RuleSystem();
+    ~RuleSystem();
 
     void addRule(const Rule &Rule);
 
@@ -35,32 +36,6 @@ public:
     void addConstant(const QChar &c);
     const QSet<QChar> &getConstants() const;
 
-    void addColor(const QColor &c);
-    const QVector<QColor> &getColors() const;
-
-    void setThicknessCalculator(std::unique_ptr<IDoubleFromDepthCalculator> Calculator);
-    double getLineThickness(const QChar &c, int depth);
-
-    void setSegmentLengthCalculator(std::unique_ptr<IDoubleFromDepthCalculator> Calculator);
-    double getSegmentLength(const QChar &c, int depth);
-
-    double getAngleIncrementPerSecond() const;
-    void setAngleIncrementPerSecond(double AngleIncrementPerSecond);
-
-    bool getScaleWithZoom() const;
-
-    bool addLengthForChar(const QChar &c, double Length);
-    const QMap<QChar, double> &getLengths() const;
-
-    double getInitialAngle() const;
-    void setInitialAngle(double InitialAngle);
-
-    const QVector2D &getInitialPosition() const;
-    void setInitialPosition(const QVector2D &InitialPosition);
-
-    double getInitialAnimationAngle() const;
-    void setInitialAnimationAngle(double InitialAnimationAngle);
-
 private:
     void Recalculate();
 
@@ -71,14 +46,6 @@ private:
     int m_NoOfIterations;
     QString m_CalculatedString;
     bool m_CacheUpToDate;
-    QVector<QColor> m_Colors;
-    std::unique_ptr<IDoubleFromDepthCalculator> m_LineThicknessCalculator;
-    std::unique_ptr<IDoubleFromDepthCalculator> m_SegmentLengthCalculator;
-    double m_AngleIncrementPerSecond;
-    QMap<QChar, double> m_LengthForChar;
-    double m_InitialAngle;
-    QVector2D m_InitialPosition;
-    double m_InitialAnimationAngle;
 };
 
 #endif // RULESYSTEM_H

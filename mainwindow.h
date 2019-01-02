@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <memory>
 
-class RuleSystem;
+class LSystemPreset;
 class StringInterpreter;
 class QGraphicsView;
 class QResizeEvent;
@@ -30,7 +30,7 @@ public slots:
 
 private:
     std::unique_ptr<Ui::MainWindow> ui;
-    std::unique_ptr<RuleSystem> m_RuleSystem;
+    std::unique_ptr<LSystemPreset> m_LSystemPreset;
     std::unique_ptr<StringInterpreter> m_Interpreter;
     std::unique_ptr<QTimer> m_Timer;
     unsigned long m_Ticks;

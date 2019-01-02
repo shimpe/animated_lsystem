@@ -1,7 +1,7 @@
 #ifndef RULESYSTEMPRESET_H
 #define RULESYSTEMPRESET_H
 
-#include "rulesystem.h"
+#include "lsystempreset.h"
 
 enum RSP {
     HEIGHWAY_DRAGON,
@@ -29,11 +29,11 @@ enum RSP {
     PENTAPLEXITY,
 };
 
-class RuleSystemPreset
+class RuleSystemPresetFactory
 {
 public:
-    RuleSystemPreset();
-    RuleSystem CreateRuleSystem(RSP type, int NoOfIterations=-1); // -1 uses a default value
+    RuleSystemPresetFactory();
+    LSystemPreset CreateRuleSystemPreset(RSP type, int NoOfIterations=-1); // -1 uses a default value
     double getRecommendedAngle(RSP type) const;
 };
 

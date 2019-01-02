@@ -7,6 +7,7 @@
 #include <QRectF>
 #include <QPointF>
 #include <QLineF>
+#include "lsystempreset.h"
 #include "rulesystem.h"
 
 StringInterpreter::StringInterpreter()
@@ -20,14 +21,14 @@ StringInterpreter::~StringInterpreter()
 {
 }
 
-void StringInterpreter::Draw(RuleSystem &RuleSystem,
+void StringInterpreter::Draw(LSystemPreset &RuleSystem,
                              double AngleInDegrees,
                              bool ClearScreen,
                              MainWindow* window)
 {
-    const QString &String = RuleSystem.CalculatedString();
-    const QSet<QChar> &Constants = RuleSystem.getConstants();
-    const QVector<QColor> &Colors = RuleSystem.getColors();
+    const QString &String = RuleSystem.ruleSystem().CalculatedString();
+    const QSet<QChar> &Constants = RuleSystem.ruleSystem().getConstants();
+    const QVector<QColor> &Colors = RuleSystem.renderHints().getColors();
 
     qreal minx = 1e100;
     qreal miny = 1e100;
@@ -36,8 +37,8 @@ void StringInterpreter::Draw(RuleSystem &RuleSystem,
 
     bool nextCharIsColor = false;
 
-    QVector2D currentPosition = RuleSystem.getInitialPosition();
-    double currentAngle = RuleSystem.getInitialAngle();
+    QVector2D currentPosition = RuleSystem.renderHints().getInitialPosition();
+    double currentAngle = RuleSystem.renderHints().getInitialAngle();
     m_PositionStack.clear();
     m_PositionStack.push(currentPosition);
     m_AngleStack.clear();
@@ -114,13 +115,13 @@ void StringInterpreter::Draw(RuleSystem &RuleSystem,
                     {
                         QVector2D newPos;
                         int depth = m_PositionStack.size();
-                        newPos.setX(currentPosition.x() + RuleSystem.getSegmentLength(c,depth)*cos(qDegreesToRadians(currentAngle)));
-                        newPos.setY(currentPosition.y() + RuleSystem.getSegmentLength(c,depth)*sin(qDegreesToRadians(currentAngle)));
+                        newPos.setX(currentPosition.x() + RuleSystem.renderHints().getSegmentLength(c,depth)*cos(qDegreesToRadians(currentAngle)));
+                        newPos.setY(currentPosition.y() + RuleSystem.renderHints().getSegmentLength(c,depth)*sin(qDegreesToRadians(currentAngle)));
                         if (!c.isLower())
                         {
                             QPen Pen(QBrush(GetColor(depth), Qt::SolidPattern),
-                                     RuleSystem.getLineThickness(c, depth));
-                            Pen.setCosmetic(!RuleSystem.getScaleWithZoom());
+                                     RuleSystem.renderHints().getLineThickness(c, depth));
+                            Pen.setCosmetic(!RuleSystem.renderHints().getScaleWithZoom());
                             view.scene()->addLine(QLineF(QPointF(currentPosition.x(), currentPosition.y()),
                                                           QPointF(newPos.x(), newPos.y())),
                                                   Pen);
