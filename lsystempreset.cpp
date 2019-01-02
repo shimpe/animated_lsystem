@@ -1,4 +1,5 @@
 #include "lsystempreset.h"
+#include <QColor>
 #include "rule.h"
 #include "rulesystem.h"
 #include "renderhints.h"

@@ -16,7 +16,7 @@ class RenderHints
 public:
     RenderHints();
     ~RenderHints();
-    RenderHints(const RenderHints &other);
+    // RenderHints(const RenderHints &other);
 
     void addColor(const QColor &c);
     const QVector<QColor> &getColors() const;

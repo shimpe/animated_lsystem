@@ -13,18 +13,6 @@ RenderHints::~RenderHints()
 {
 }
 
-RenderHints::RenderHints(const RenderHints &other)
-    : m_Colors(other.m_Colors)
-    , m_LineThicknessCalculator(other.m_LineThicknessCalculator)
-    , m_SegmentLengthCalculator(other.m_SegmentLengthCalculator)
-    , m_AngleIncrementPerSecond(other.m_AngleIncrementPerSecond)
-    , m_LengthForChar(other.m_LengthForChar)
-    , m_InitialAngle(other.m_InitialAngle)
-    , m_InitialPosition(other.m_InitialPosition)
-    , m_InitialAnimationAngle(other.m_InitialAngle)
-{
-}
-
 double RenderHints::getInitialAnimationAngle() const
 {
     return m_InitialAnimationAngle;
