@@ -261,7 +261,7 @@ LSystemPreset RuleSystemPresetFactory::CreateRuleSystemPreset(RSP type, int NoOf
             rs.addRule(Rule("Y", "Y-[Y]-C2Y+C3X", 1.0));
             rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
 
-            rh.setAngleIncrementPerSecond(0.2);
+            rh.setAngleIncrementPerSecond(0.1);
             QMap<QChar, double> ThicknessForSymbol;
             ThicknessForSymbol['X'] = 6;
             ThicknessForSymbol['Y'] = 0;
@@ -307,6 +307,35 @@ LSystemPreset RuleSystemPresetFactory::CreateRuleSystemPreset(RSP type, int NoOf
 
             rh.setAngleIncrementPerSecond(0.01);
             rh.setInitialAnimationAngle(getRecommendedAngle(PENTAPLEXITY)-0.3);
+        }
+        break;
+
+        case STARRY_NECKLACE:
+        {
+            rs.setAxiom("C0X+C0X+C1X+C2X+C3X+C4X+C4X+C5X+C6X+C7X+C8X+C9X");
+            rs.addRule(Rule("X", "Y-Z", 1.0));
+            rs.addRule(Rule("Y", "--Z+X-Y", 1.0));
+            rs.addRule(Rule("Z", "X-Y|-X", 1.0));
+            rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
+
+            rh.setInitialAnimationAngle(0);
+            rh.setAngleIncrementPerSecond(0.1);
+
+            rh.addColor(QColor::fromRgb(94,79,162, 127));
+            rh.addColor(QColor::fromRgb(108,85,155, 127));
+            rh.addColor(QColor::fromRgb(122,92,149, 127));
+            rh.addColor(QColor::fromRgb(136,98,142, 127));
+            rh.addColor(QColor::fromRgb(150,104,135, 127));
+            rh.addColor(QColor::fromRgb(164,110,129, 127));
+            rh.addColor(QColor::fromRgb(177,117,122, 127));
+            rh.addColor(QColor::fromRgb(191,123,116, 127));
+            rh.addColor(QColor::fromRgb(205,129,109, 127));
+            rh.addColor(QColor::fromRgb(219,135,102, 127));
+            rh.addColor(QColor::fromRgb(233,142,96, 127));
+            rh.addColor(QColor::fromRgb(247,148,89, 127));
+
+            rh.setThicknessCalculator(std::make_shared<ConstantValueProvider>(false, 10));
+
         }
         break;
     }
@@ -363,6 +392,8 @@ double RuleSystemPresetFactory::getRecommendedAngle(RSP type) const
             return 90;
         case PENTAPLEXITY:
             return 36;
+        case STARRY_NECKLACE:
+            return 0;
     }
 
     return 0.0;

@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     //ui->graphicsView->setViewport(new QGLWidget());
 
     RuleSystemPresetFactory Presets;
-    *m_LSystemPreset = Presets.CreateRuleSystemPreset(FERN_CLAW);
+    *m_LSystemPreset = Presets.CreateRuleSystemPreset(STARRY_NECKLACE);
 
     connect(m_Timer.get(), SIGNAL(timeout()), this, SLOT(animate()));
     m_Timer->start(TIMERDURATION);

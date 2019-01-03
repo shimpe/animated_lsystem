@@ -27,6 +27,7 @@ enum RSP {
     KOLAM_PATTERN,
     KOCH_ISLAND,
     PENTAPLEXITY,
+    STARRY_NECKLACE,
 };
 
 class RuleSystemPresetFactory
