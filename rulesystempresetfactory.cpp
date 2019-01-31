@@ -241,7 +241,7 @@ LSystemPreset RuleSystemPresetFactory::CreateRuleSystemPreset(RSP type, int NoOf
             rs.addRule(Rule("Y", "Y-[Y]-C2Y+C3X", 1.0));
             rs.setNoOfIterations(NoOfIterations == -1 ? 5 : NoOfIterations);
 
-            rh.setAngleIncrementPerSecond(0.3);
+            rh.setAngleIncrementPerSecond(0.1);
             rh.setThicknessCalculator(std::make_shared<ConstantValueProvider>(false, 2));
             QMap<QChar, double> LengthForSymbol;
             LengthForSymbol['X'] = 10;

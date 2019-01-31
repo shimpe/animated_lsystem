@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <memory>
+#include <QString>
 
 class LSystemPreset;
 class StringInterpreter;
@@ -25,8 +26,16 @@ public:
     QGraphicsView &View();
     virtual void resizeEvent(QResizeEvent *event) override;
 
+    void setRenderLive();
+    void setRenderToFile(const QString &renderFolder);
+    bool renderLive() const;
+
+    void startAnimation(double fps, int startFrame=0, int endFrame=-1);
+    void redrawScene();
+
 public slots:
     void animate();
+    void animateSave();
 
 private:
     std::unique_ptr<Ui::MainWindow> ui;
@@ -34,6 +43,13 @@ private:
     std::unique_ptr<StringInterpreter> m_Interpreter;
     std::unique_ptr<QTimer> m_Timer;
     unsigned long m_Ticks;
+    bool m_RenderToFile;
+    QString m_RenderFolder;
+    double m_Fps; // frames per second
+    double m_TimerDuration;
+    int m_Frame;
+    int m_startFrame;
+    int m_endFrame;
 };
 
 
